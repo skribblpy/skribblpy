@@ -4,10 +4,11 @@ from hashlib import sha256
 from json import dumps, loads
 from pytest import mark, fixture
 from PIL.Image import frombytes, open as open_image
+from validation.image_cases import drawing_cases, conversion_cases
 from skribblpy.images import RasterImage, generate_image, render_preview
-from validation.image_cases import drawing_cases, conversion_cases, save_animated_fixture
 
-GOLDENS = loads(Path(__file__).with_name('fixtures').joinpath('image_goldens.json').read_text())
+FIXTURES = Path(__file__).with_name('fixtures')
+GOLDENS = loads((FIXTURES / 'image_goldens.json').read_text())
 
 
 @fixture(scope='module')
@@ -18,9 +19,8 @@ def sources(tmp_path_factory):
         path = folder / f'{name}.png'
         source.save(path)
         result[name] = path
-    path = folder / 'animated-transparent.gif'
-    save_animated_fixture(path)
-    result['animated-transparent'] = path
+    # Keep the palette fixed: Pillow's RGBA quantization varies across platforms.
+    result['animated-transparent'] = FIXTURES / 'animated-transparent.gif'
     return result
 
 

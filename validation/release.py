@@ -148,6 +148,7 @@ def _archives(wheel, sdist, source, destination):
         'src/skribblpy/py.typed',
         'src/skribblpy/_native_licenses.json',
         'tests/fixtures/image_goldens.json',
+        'tests/fixtures/animated-transparent.gif',
         'examples/word_guesser/words.json',
         'examples/word_guesser/words.stats.json',
         'validation/image_cases.py',

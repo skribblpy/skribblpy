@@ -45,13 +45,6 @@ def conversion_cases():
     yield 'checkerboard-downsample', fromarray(((x + y) % 2 * 255).astype(uint8))
 
 
-def save_animated_fixture(path):
-    first = next(image for name, image in conversion_cases() if name == 'alpha-ramp').convert('P')
-    second = first.copy()
-    second.paste(7, (0, 0, *second.size))
-    first.save(path, save_all=True, append_images=[second], transparency=0, duration=50, loop=0)
-
-
 def drawing_cases():
     commands = []
     for size in range(MIN_BRUSH_DIAMETER, MAX_BRUSH_DIAMETER + 1):
