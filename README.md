@@ -1,6 +1,6 @@
 # skribblpy
 
-An async Python framework for skribbl.io.
+A modern Python framework for skribbl.io.
 
 ## What's included
 
