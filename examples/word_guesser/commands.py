@@ -2,8 +2,9 @@
 
 from asyncio import run
 from typing import Annotated
+from logging import getLogger
 from argly import Option, command
-from logging import INFO, getLogger, basicConfig
+from examples.word_guesser.logging import configure_logging
 from examples.word_guesser.session import Options, run_pool, DEFAULT_DATABASE
 
 
@@ -20,7 +21,7 @@ def guesser(
     message_interval: Annotated[float, Option()] = 1.0,
     lobby_id: Annotated[str, Option()] = '',
 ) -> int:
-    basicConfig(level=INFO, format='%(asctime)s %(name)s %(message)s')
+    configure_logging()
     options = Options(
         database=database,
         statistics=statistics,
@@ -35,6 +36,7 @@ def guesser(
     try:
         run(run_pool(options))
     except KeyboardInterrupt:
+        getLogger('guesser').info('Stopped all workers.')
         return 130
     except (ValueError, OSError) as error:
         getLogger('guesser').error('%s', error)
