@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from math import isfinite
+from random import choice
 from logging import getLogger
 from dataclasses import dataclass
 from skribblpy import Event as ClientEvent
@@ -18,9 +19,17 @@ MAX_CLIENTS = 32
 MAX_RETRY_DELAY = 60.0
 POLICY_REJECTIONS = frozenset((3, 4, 5, 100, 200, 300))
 GREETING = (
-    "I'm an experimental Python word guesser learning from revealed answers and word frequencies."
+    "I'm an experimental guesser that learns words and their frequency to guess more accurately! No AI!"
 )
+POST_GREETING = 'My source code is available at: bit DOT ly/skribblpy'
 EXHAUSTED_MESSAGE = "I've run out of matching words. I'll learn the answer when this turn ends."
+POST_GUESS_SIGN_OFF_MESSAGES = (
+    "Fun fact: I'm written in the Python programming language!",
+    'Fun fact: my guesses are based on how often words are chosen to draw as well as what others guess!',
+    'Fun fact: I don\'t use any AI in my code; all guesses are determined via my algorithm!',
+    'Fun fact: press CTRL+W to show the full word so you can guess it!',
+    'Fun fact: I\'m open source and you can view my code at bit DOT ly/skribblpy',
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -116,6 +125,7 @@ class GuesserSession:
             await self._stop_guessing()
         if event.name == EventName.LOBBY:
             self._queue_message(GREETING, 'greeting', 'Sent greeting to the lobby.')
+            self._queue_message(POST_GREETING, 'post-greeting', 'Sent post-greeting to the lobby.')
 
         word = None
         correct = event.name == EventName.GUESSED and event.data['id'] == state.me
@@ -146,6 +156,12 @@ class GuesserSession:
                 self._queue_message(
                     statistics_message, 'post-guess statistics', 'Sent post-guess statistics.'
                 )
+                if POST_GUESS_SIGN_OFF_MESSAGES:
+                    self._queue_message(
+                        choice(POST_GUESS_SIGN_OFF_MESSAGES),
+                        'post-guess sign-off',
+                        'Sent post-guess sign-off.',
+                    )
         if state.phase == Phase.TURN_RESULT and word and state.turn_id not in self.learned_turns:
             new_word = word not in self.index.words
             words = await self.store.learn(word)
@@ -265,12 +281,20 @@ class GuesserSession:
                 report_hint = False
             if not candidates:
                 if not self._exhausted:
-                    self._queue_message(
-                        EXHAUSTED_MESSAGE,
-                        'out-of-guesses message',
-                        f'No guesses left for hint {state.hint!r}.',
-                    )
+
+                    async def exhaustion_message():
+                        latest = self.client.snapshot
+                        if not latest.guessing_enabled or latest.turn_id != turn:
+                            raise ActionError('Guessing ended before the exhaustion message')
+                        return EXHAUSTED_MESSAGE
+
+                    # Keep the paced send in this task so stopping guesses cancels it too.
+                    try:
+                        await self.client.send_chat(exhaustion_message)
+                    except ActionError:
+                        return
                     self._exhausted = True
+                    self.logger.info('No guesses left for hint %r.', state.hint)
                 return
             word = candidates[0]
             try:
@@ -328,11 +352,6 @@ async def _worker(options: Options, worker: int):
                 task.result()
             if session.error is not None:
                 raise session.error
-            if client.disconnect_reason in (1, 2):
-                logger.warning(
-                    'Disconnected by server (reason %d); stopping worker.', client.disconnect_reason
-                )
-                return
         except JoinRejected as error:
             logger.error('Join rejected: %s', error)
             if error.code in POLICY_REJECTIONS:
@@ -340,11 +359,6 @@ async def _worker(options: Options, worker: int):
                 return
         except (OSError, TimeoutError, Disconnected) as error:
             logger.warning('Connection failed: %s', error)
-            if client.disconnect_reason in (1, 2):
-                logger.warning(
-                    'Disconnected by server (reason %d); stopping worker.', client.disconnect_reason
-                )
-                return
         except Exception:
             logger.exception('Session failed.')
             raise
@@ -353,6 +367,8 @@ async def _worker(options: Options, worker: int):
                 task.cancel()
             await gather(*watchers, return_exceptions=True)
             await session.close()
+        if client.disconnect_reason is not None:
+            session.depart_reason = f'Disconnected by server (reason {client.disconnect_reason})'
         if not session.joined:
             delay = min(MAX_RETRY_DELAY, delay + 1)
         retry = options.lobby_delay if session.depart.is_set() else delay
