@@ -7,7 +7,9 @@ from asyncio import sleep, gather, timeout, create_task, CancelledError, Event a
 from skribblpy import Event, Phase, Client, PacketID, EventName, SendReceipt, Disconnected
 from examples.word_guesser.session import (
     Options,
+    GREETING,
     run_pool,
+    POST_GREETING,
     GuesserSession,
     EXHAUSTED_MESSAGE,
     POST_GUESS_SIGN_OFF_MESSAGES,
@@ -111,7 +113,8 @@ async def test_session_replans_stops_and_records_once(lobby, tmp_path):
     await session.handle(Event('state', state, 4, 0))
     await session.handle(Event('state', state, 5, 0))
     assert (await store.counts())['words'] == {'cat dog': 1}
-    assert len(queued) == 3
+    assert len(queued) == 4
+    assert [text for text, _ in queued[:2]] == [GREETING, POST_GREETING]
     assert 'seen 1 times' in await queued[-2][0]()
     assert queued[-1][0] in POST_GUESS_SIGN_OFF_MESSAGES
     await session.close()

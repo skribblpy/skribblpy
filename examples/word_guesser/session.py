@@ -18,17 +18,15 @@ DEFAULT_DATABASE = str(Path(__file__).with_name('words.json'))
 MAX_CLIENTS = 32
 MAX_RETRY_DELAY = 60.0
 POLICY_REJECTIONS = frozenset((3, 4, 5, 100, 200, 300))
-GREETING = (
-    "I'm an experimental guesser that learns words and their frequency to guess more accurately! No AI!"
-)
+GREETING = "I'm an experimental guesser that learns words and their frequency to guess more accurately! No AI!"
 POST_GREETING = 'My source code is available at: bit DOT ly/skribblpy'
 EXHAUSTED_MESSAGE = "I've run out of matching words. I'll learn the answer when this turn ends."
 POST_GUESS_SIGN_OFF_MESSAGES = (
     "Fun fact: I'm written in the Python programming language!",
     'Fun fact: my guesses are based on how often words are chosen to draw as well as what others guess!',
-    'Fun fact: I don\'t use any AI in my code; all guesses are determined via my algorithm!',
+    "Fun fact: I don't use any AI in my code; all guesses are determined via my algorithm!",
     'Fun fact: press CTRL+W to show the full word so you can guess it!',
-    'Fun fact: I\'m open source and you can view my code at bit DOT ly/skribblpy',
+    "Fun fact: I'm open source and you can view my code at bit DOT ly/skribblpy",
 )
 
 
