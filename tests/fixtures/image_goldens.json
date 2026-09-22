@@ -1,0 +1,250 @@
+{
+  "conversion": [
+    [
+      "odd-rgb",
+      "cluster-dot",
+      {
+        "commands": "ebde00fedd3ab644c30e0970e0585e167a8dea9431ad2b53cd65c4ce0239f386",
+        "preview": "1bd38de808413f417cc356e00dfba87f6577e48d3de558733faf6f0567b2dee6"
+      }
+    ],
+    [
+      "odd-rgb",
+      "yliluoma-1",
+      {
+        "commands": "d76f3eaa5ec2525afd482577db15be70823438c01b49a5319764b7d0782c15d3",
+        "preview": "d69878f9b0fc7edb9cd4e35c1d343d89773a02d68f5bf685ee7f19889220e899"
+      }
+    ],
+    [
+      "alpha-ramp",
+      "cluster-dot",
+      {
+        "commands": "bef56ca61b05c5cfe45e7fa93fc85307ef0a49906f31628a757c2b574bc2a522",
+        "preview": "ac08089f4c25ffbd4c89784fc8c6ff88be239a454fd23262a1ea9b2ea34763a7"
+      }
+    ],
+    [
+      "alpha-ramp",
+      "yliluoma-1",
+      {
+        "commands": "a586f2f582ea7d78f1f834cf56af4acfcc34b267b20300d706a4d3f730e3bd9e",
+        "preview": "949cd26ea293d16fcdb4cc4250e0347afbb486e471a10683fad80f514367e511"
+      }
+    ],
+    [
+      "transparent",
+      "cluster-dot",
+      {
+        "commands": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "preview": "680a1c22a8e114ea0c637847e8cc506794073a55f4350364c8a0421e7dbcc8f0"
+      }
+    ],
+    [
+      "transparent",
+      "yliluoma-1",
+      {
+        "commands": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "preview": "680a1c22a8e114ea0c637847e8cc506794073a55f4350364c8a0421e7dbcc8f0"
+      }
+    ],
+    [
+      "single-pixel",
+      "cluster-dot",
+      {
+        "commands": "72b48672d5a7fb8f121a008b6d976fdf4edcef4380a745fa41145d63591dcce3",
+        "preview": "32e2fd0a5644ed2c0e96b61560519340bf458e2f3f4f5635e120603a969da957"
+      }
+    ],
+    [
+      "single-pixel",
+      "yliluoma-1",
+      {
+        "commands": "4bec3e362cdc225cb016f8f2955cbfaa26db6750db50657998e854e0df0b1f07",
+        "preview": "193cff8dc8785475a873181742a49c6b1f8afa0847be84eafbd2d62e2f85ffa0"
+      }
+    ],
+    [
+      "single-row",
+      "cluster-dot",
+      {
+        "commands": "693f1c9f13ac78192a9d49e66a36db318e777216d9238043ea787e847a3960f1",
+        "preview": "dfc11da2bd5bb18b696df80b89f68b4281f25f8b5e21a10add89e0aa2a6d72a8"
+      }
+    ],
+    [
+      "single-row",
+      "yliluoma-1",
+      {
+        "commands": "6fc693f5af7e49f8e4b42dd60f42961eaec8bf25301a7e90e20898b463bcf0a8",
+        "preview": "4468303a28a420c4c5eefba64f1a0fb1584ef8d7a51fe269051b62719f86acb3"
+      }
+    ],
+    [
+      "single-column",
+      "cluster-dot",
+      {
+        "commands": "793127d74b090014579968f81848ff56d7e5c1e9f2b4ab75b6babca953cf5661",
+        "preview": "18eddd538581a8555c96c8f5fb5181aac714cd040b874742e8bda3c2695494f6"
+      }
+    ],
+    [
+      "single-column",
+      "yliluoma-1",
+      {
+        "commands": "627ae6173462dcd9a4bbb55073c583ca6370d2289116d950f2cb25ee5a3c9c38",
+        "preview": "55a168216bfde3fa16628856390460053dad7f07298bd70830c1a02a9c67a120"
+      }
+    ],
+    [
+      "gray-ramp",
+      "cluster-dot",
+      {
+        "commands": "af6da4a987cd93fab391526220b0d3c4a9d2224350075ac519ebd0d3a3c6afde",
+        "preview": "c529885dec50a5cb48a49d1a2d70c3f0c9334da5a7b25132b68951f7c544ac20"
+      }
+    ],
+    [
+      "gray-ramp",
+      "yliluoma-1",
+      {
+        "commands": "394f01fe4a4ce0bc82e2ad134a78375c3a790dac58551296b804a867798498bf",
+        "preview": "d1782375255eb9bbf551dfa2732b0ba5000e8e24648b936f66bcb2fffd233cf8"
+      }
+    ],
+    [
+      "gray16-ramp",
+      "cluster-dot",
+      {
+        "commands": "d4e226b27251b26cc25be8cc8beceb433002797f06f730ced02271e65214579b",
+        "preview": "06610aab217e998dabb47bf13a4ef82488f9925cf0d0845f3d0b66c79c8a7db7"
+      }
+    ],
+    [
+      "gray16-ramp",
+      "yliluoma-1",
+      {
+        "commands": "985048ef9c1cb361aa71dbe3c0f84b89a6aa94c5296b7d072a5dbaaf11c87e87",
+        "preview": "4c02f5992f420ecf02a03da7940664d134a7fce9edda1e82dff8f4a6b34e5c86"
+      }
+    ],
+    [
+      "gray-alpha",
+      "cluster-dot",
+      {
+        "commands": "09a3e08f774fcc627e5100b99d68fb117ac088e991b32915c8a094b51a2ffac7",
+        "preview": "e6a486f14d56a01b9a369846856544ae45822e49911a1da740bda77e1dbdec51"
+      }
+    ],
+    [
+      "gray-alpha",
+      "yliluoma-1",
+      {
+        "commands": "b88113b609880061c264f9ae6210d65f5dafa7252d758d8905f91fcf09230f18",
+        "preview": "28356a14d7f3c0fa6770a50030c41828c26880b64647efeadfbcb8b9a3c0d9a9"
+      }
+    ],
+    [
+      "gradient",
+      "cluster-dot",
+      {
+        "commands": "16657065e89e0ba0e0da1e4ba0afa65e427948ab5bd2a10794b5ae62b3014f1f",
+        "preview": "5d30f87ed3ff36f88900f54785f4f1ee53e65ad5913102b32f02623bf42448be"
+      }
+    ],
+    [
+      "gradient",
+      "yliluoma-1",
+      {
+        "commands": "75f187ed9ab9a3b088cfc13e1063cc7c3194ea56a2e29813400b8bbad1953808",
+        "preview": "987899f8f4b7ff816abe13840905d05362b8c6cbe5ebc8e030751f7fd2edfdb4"
+      }
+    ],
+    [
+      "palette",
+      "cluster-dot",
+      {
+        "commands": "f9871e05615af39c60b0fa0edbec646d8616b68335de8bc93c10731f3c32d99a",
+        "preview": "b42277f9e684e3dcf5d9ab06e7577abee3ec5af59a7a840f381695d48797536a"
+      }
+    ],
+    [
+      "palette",
+      "yliluoma-1",
+      {
+        "commands": "f9871e05615af39c60b0fa0edbec646d8616b68335de8bc93c10731f3c32d99a",
+        "preview": "b42277f9e684e3dcf5d9ab06e7577abee3ec5af59a7a840f381695d48797536a"
+      }
+    ],
+    [
+      "palette-vertical",
+      "cluster-dot",
+      {
+        "commands": "1d59d744b63c327962b93a6cdc861a04f5c36f64594dcf8836ad0061ad21ac33",
+        "preview": "85b89d235ea77a3f32e62cee1ee7ec098d9f89fd5127c926a020952b6fe1af5f"
+      }
+    ],
+    [
+      "palette-vertical",
+      "yliluoma-1",
+      {
+        "commands": "1d59d744b63c327962b93a6cdc861a04f5c36f64594dcf8836ad0061ad21ac33",
+        "preview": "85b89d235ea77a3f32e62cee1ee7ec098d9f89fd5127c926a020952b6fe1af5f"
+      }
+    ],
+    [
+      "palette-midpoints",
+      "cluster-dot",
+      {
+        "commands": "df12c64efa19c210fd789b88211d5a6c919dce7f3877b7b34451456a7a22fdcb",
+        "preview": "16e4f420015753047202c28ff2b875d37ea190458cd2761882b999446aed4a80"
+      }
+    ],
+    [
+      "palette-midpoints",
+      "yliluoma-1",
+      {
+        "commands": "bf082aebf9dbb7a08978bd5d518ec93f9653f0141bfb5d67574881cd2cccfc49",
+        "preview": "d73a854a5226845f39dc5484440d9a9d176e4f5f7edc65591f15bf8a49bef13f"
+      }
+    ],
+    [
+      "checkerboard-downsample",
+      "cluster-dot",
+      {
+        "commands": "0e9be337e39dd4120606fc084d5ed70f79cf97a500cd8cffbd9058aed523acb8",
+        "preview": "7c29b0653d23160e9d2ea9c323c998f87ac3d84da98ea116a5f55a4c97ce466a"
+      }
+    ],
+    [
+      "checkerboard-downsample",
+      "yliluoma-1",
+      {
+        "commands": "0e9be337e39dd4120606fc084d5ed70f79cf97a500cd8cffbd9058aed523acb8",
+        "preview": "7c29b0653d23160e9d2ea9c323c998f87ac3d84da98ea116a5f55a4c97ce466a"
+      }
+    ],
+    [
+      "animated-transparent",
+      "cluster-dot",
+      {
+        "commands": "525e6e114da762ea63f4068c734e7570ee41ab55bd7859e33cb41262b373150b",
+        "preview": "ff9de588ce5cc34c70c81b57b5022d574dd1e919f6432e20ebd2241104c85c84"
+      }
+    ],
+    [
+      "animated-transparent",
+      "yliluoma-1",
+      {
+        "commands": "57d6f902d59060c49a8229b66fe3225c78eab60f30e260f7de9f106a3267f045",
+        "preview": "a6368cc64abae54ed6afc006a7ce801626e01ccf2738de7c9a2784e1908b1a80"
+      }
+    ]
+  ],
+  "drawing": {
+    "all-brush-sizes": "c15d26e00a310282d400b2f21ec6e3668dcc904c956270d03c6845cd94390f3a",
+    "clipped-reversed": "24190f6f773656eabab30c6ca6ec3850eb54c6978f340b80b539ae1a81b1339b",
+    "eight-octants": "4fc4688553e54932df6fae6c7f37380bf99bc31a19625c0a615a6de479815258",
+    "connected-fill": "c86b6c9ecb0de25a3e020f217c2403a31b29811ca725b702be0538ace6c90fb7"
+  }
+}

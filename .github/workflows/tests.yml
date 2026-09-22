@@ -1,0 +1,148 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'release' && github.ref_type != 'tag' }}
+
+jobs:
+  checks:
+    name: Python and Rust checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - name: Create tooling environment
+        run: |
+          python -m venv .venv
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+      - name: Install development tools
+        run: python -m pip install -e '.[dev,cli]'
+      - name: Check release version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          python - <<'PY'
+          from os import environ
+          from pathlib import Path
+          from tomllib import loads
+
+          version = loads(Path('pyproject.toml').read_text())['project']['version']
+          native_version = loads(Path('native/Cargo.toml').read_text())['package']['version']
+          if version != native_version:
+              raise SystemExit('Python and Rust package versions differ')
+          tag = environ.get('RELEASE_TAG', '')
+          if tag and tag != f'v{version}':
+              raise SystemExit(f'Release tag {tag!r} does not match version {version!r}')
+          print(f'Checking skribblpy {version}')
+          PY
+      - name: Check Python
+        run: |
+          python -m ruff check .
+          python -m ruff format --check .
+          python -m mypy
+      - name: Check Rust
+        run: |
+          cargo fmt --manifest-path native/Cargo.toml --check
+          PYO3_PYTHON="$GITHUB_WORKSPACE/.venv/bin/python" cargo clippy --manifest-path native/Cargo.toml --locked -- -D warnings
+
+  distributions:
+    name: ${{ matrix.name }} distribution
+    needs: checks
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows-x64
+            runner: windows-2025
+            target: x86_64-pc-windows-msvc
+            manylinux: 'off'
+            interpreter: python
+          - name: linux-x64
+            runner: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+            manylinux: '2_28'
+            interpreter: python3.14
+          - name: macos-arm64
+            runner: macos-15
+            target: aarch64-apple-darwin
+            manylinux: 'off'
+            interpreter: python
+          - name: macos-x64
+            runner: macos-15-intel
+            target: x86_64-apple-darwin
+            manylinux: 'off'
+            interpreter: python
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - name: Create virtual environment
+        run: python -m venv .venv
+      - name: Select virtual environment
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            echo "$GITHUB_WORKSPACE/.venv/Scripts" >> "$GITHUB_PATH"
+          else
+            echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Install release tools
+        run: python -m pip install 'maturin==1.15.0' 'twine>=7,<8' 'argly>=0.1,<1'
+      - name: Build wheel from source distribution
+        uses: PyO3/maturin-action@v1.51.0
+        with:
+          maturin-version: v1.15.0
+          rust-toolchain: '1.98.0'
+          target: ${{ matrix.target }}
+          manylinux: ${{ matrix.manylinux }}
+          args: --release --locked --sdist --compatibility pypi --out dist -i ${{ matrix.interpreter }}
+      - name: Validate clean installations and test the installed wheel with coverage
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: python -m validation.release check --artifacts dist --work-directory "$RUNNER_TEMP/skribbl-release" --full-suite
+      - name: Collect validated distributions
+        run: |
+          mkdir -p validated-dist
+          cp dist/*.whl validated-dist/
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            cp dist/*.tar.gz validated-dist/
+          fi
+      - name: Save validated distributions
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-distributions-${{ matrix.name }}
+          path: validated-dist/*
+          if-no-files-found: error
+          retention-days: 14
+      - name: Save validation and coverage reports
+        uses: actions/upload-artifact@v7
+        with:
+          name: validation-${{ matrix.name }}
+          path: |
+            ${{ runner.temp }}/skribbl-release/validation.json
+            ${{ runner.temp }}/skribbl-release/coverage.xml
+          if-no-files-found: error
+          retention-days: 14
